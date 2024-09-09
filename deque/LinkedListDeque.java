@@ -1,6 +1,6 @@
 package deque;
 
-public class LinkedListDeque<T> {
+public class LinkedListDeque<T> implements Deque<T>{
 
     private Node headSentinel, tailSentinel;
     private int size;
@@ -10,25 +10,31 @@ public class LinkedListDeque<T> {
 
         headSentinel.setPrev(tailSentinel);
         headSentinel.setNext(tailSentinel);
-        
+
         tailSentinel.setPrev(headSentinel);
         tailSentinel.setNext(headSentinel);
 
         size = 0;
     }
     public void addFirst(T item){
+        Node tmp = headSentinel.getNext();
         headSentinel.setNext(new Node(item , headSentinel , headSentinel.next));
+        tmp.setPrev(headSentinel.getNext());
+        size++;
     }
     public void addLast(T item){
+        Node tmp = tailSentinel.getPrev();
         tailSentinel.setPrev(new Node(item, tailSentinel.prev , tailSentinel));
+        tmp.setNext(tailSentinel.getPrev());
+        size++;
     }
     public T removeFirst(){
         if(size == 0) return null;
         Node removedNode = headSentinel.getNext();
         headSentinel.setNext(removedNode.getNext());
-        removedNode.next.setPrev(headSentinel);
+        removedNode.getNext().setPrev(headSentinel);
         --size;
-        return removedNode.data;
+        return removedNode.getData();
     }
     public T removeLast(){
         if(size == 0) return null;
